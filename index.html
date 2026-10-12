@@ -7,14 +7,50 @@
     <style>
         body { font-family: Arial, sans-serif; background-color: #f0f4f8; text-align: center; margin: 0; padding: 20px; }
         h1 { color: #333; }
-        .game-container { display: flex; justify-content: space-around; flex-wrap: wrap; max-width: 800px; margin: 20px auto; }
-        .teacher-card { background: white; border-radius: 10px; padding: 15px; margin: 10px; width: 150px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); cursor: grab; border: 2px solid transparent; }
-        .teacher-card:active { cursor: grabbing; }
-        .teacher-card.dragging { opacity: 0.5; }
+        .game-container { display: flex; justify-content: space-around; flex-wrap: wrap; max-width: 900px; margin: 20px auto; }
+
+        .teacher-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px;
+            width: 150px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: background 0.3s, border-color 0.3s, opacity 0.3s;
+            user-select: none;
+        }
+        .teacher-card:hover { background: #f7fafc; }
+        .teacher-card.selected {
+            background: #cbd5e0;
+            border-color: #4a5568;
+            opacity: 0.7;
+        }
         .teacher-img { width: 100px; height: 100px; background-color: #ddd; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 10px; }
-        .subject-zone { background: #e2e8f0; border: 3px dashed #a0aec0; border-radius: 10px; padding: 20px; margin: 10px; width: 150px; min-height: 180px; transition: background 0.3s; }
-        .subject-zone.dragover { background: #cbd5e0; border-color: #4a5568; }
+
+        .subject-zone {
+            background: #e2e8f0;
+            border: 3px dashed #a0aec0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 10px;
+            width: 150px;
+            min-height: 180px;
+            transition: background 0.3s, border-color 0.3s;
+            cursor: pointer;
+        }
+        .subject-zone:hover { background: #cbd5e0; }
+        .subject-zone.hint {
+            animation: hintBlink 0.8s infinite alternate;
+            border-color: #ecc94b;
+        }
+        @keyframes hintBlink {
+            from { background: #e2e8f0; border-color: #ecc94b; }
+            to { background: #fefcbf; border-color: #d69e2e; }
+        }
         .subject-zone h3 { margin-top: 0; color: #4a5568; }
+
         #check-btn { background-color: #3182ce; color: white; border: none; padding: 15px 30px; font-size: 18px; border-radius: 8px; cursor: pointer; margin-top: 20px; }
         #check-btn:hover { background-color: #2b6cb0; }
         #result { margin-top: 20px; font-size: 20px; font-weight: bold; }
@@ -23,40 +59,41 @@
 <body>
 
     <h1>Распредели учителей по предметам</h1>
-    <p>Перетащи карточку учителя в нужную зону.</p>
+    <p>Нажми на учителя, а потом на предмет.</p>
 
     <div class="game-container" id="teachers-container">
 
-        <div class="teacher-card" draggable="true" data-subject="history">
+        <div class="teacher-card" data-subject="history">
             <img src="https://school2-ptz.ru/school/t/photo_52.jpg" class="teacher-img" alt="Учитель">
             <strong>Шаховцева Елена Рейновна</strong>
         </div>
 
-        <div class="teacher-card" draggable="true" data-subject="geography">
+        <div class="teacher-card" data-subject="geography">
             <img src="https://school2-ptz.ru/wp-content/uploads/2026/03/RTQCiz3bYH0.jpg" class="teacher-img" alt="Учитель">
             <strong>Стасилович Наталья Сергеевна</strong>
         </div>
 
-        <div class="teacher-card" draggable="true" data-subject="math">
+        <div class="teacher-card" data-subject="math">
             <img src="https://school2-ptz.ru/school/t/photo_30.jpg" class="teacher-img" alt="Учитель">
             <strong>Толкачева Елена Павловна</strong>
         </div>
 
-        <div class="teacher-card" draggable="true" data-subject="biology">
+        <div class="teacher-card" data-subject="biology">
             <img src="https://school2-ptz.ru/school/t/photo_4.jpg" class="teacher-img" alt="Учитель">
             <strong>Андреевская Анна Алексеевна</strong>
         </div>
 
-        <div class="teacher-card" draggable="true" data-subject="informatics">
+        <div class="teacher-card" data-subject="informatics">
             <img src="https://school2-ptz.ru/school/t/photo_80.jpg" class="teacher-img" alt="Учитель">
             <strong>Падчина Яна Викторовна</strong>
         </div>
 
-        <div class="teacher-card" draggable="true" data-subject="physics">
+        <div class="teacher-card" data-subject="physics">
             <img src="https://school2-ptz.ru/school/t/photo_8.jpg" class="teacher-img" alt="Учитель">
             <strong>Боброва Янина Бронюсовна</strong>
         </div>
-            <div class="teacher-card" draggable="true" data-subject="ximia">
+
+        <div class="teacher-card" data-subject="ximia">
             <img src="https://school2-ptz.ru/school/t/photo_61.jpg" class="teacher-img" alt="Учитель">
             <strong>Ильина Анастасия Анатольевна</strong>
         </div>
@@ -68,7 +105,7 @@
         <div class="subject-zone" data-subject="physics">
             <h3>Физика</h3>
         </div>
-        
+
         <div class="subject-zone" data-subject="ximia">
             <h3>Химия</h3>
         </div>
@@ -110,28 +147,54 @@
     <canvas id="fireworks" style="position:fixed; top:0; left:0; width:100%; height:100%; pointer-events:none; z-index:998;"></canvas>
 
     <script>
-        const draggables = document.querySelectorAll('.teacher-card');
-        const dropZones = document.querySelectorAll('.subject-zone');
+        const subjectsContainer = document.getElementById('subjects-container');
+        const allZones = document.querySelectorAll('.subject-zone');
 
-        draggables.forEach(draggable => {
-            draggable.addEventListener('dragstart', () => { draggable.classList.add('dragging'); });
-            draggable.addEventListener('dragend', () => { draggable.classList.remove('dragging'); });
-        });
+        let selectedTeacher = null;
+        let hintActive = false;
 
-        dropZones.forEach(zone => {
-            zone.addEventListener('dragover', e => { e.preventDefault(); zone.classList.add('dragover'); });
-            zone.addEventListener('dragleave', () => { zone.classList.remove('dragover'); });
-            zone.addEventListener('drop', e => {
-                e.preventDefault();
-                zone.classList.remove('dragover');
-                const draggingTeacher = document.querySelector('.dragging');
-                if (draggingTeacher) { zone.appendChild(draggingTeacher); }
+        setTimeout(() => { hintActive = true; }, 60000);
+
+        function attachTeacherClicks() {
+            document.querySelectorAll('.teacher-card').forEach(card => {
+                card.onclick = (e) => {
+                    e.stopPropagation();
+                    if (card.classList.contains('selected')) {
+                        card.classList.remove('selected');
+                        selectedTeacher = null;
+                        clearHints();
+                        return;
+                    }
+                    if (selectedTeacher) return;
+                    card.classList.add('selected');
+                    selectedTeacher = card;
+                    if (hintActive) {
+                        const correctZone = document.querySelector(`.subject-zone[data-subject="${card.dataset.subject}"]`);
+                        if (correctZone) correctZone.classList.add('hint');
+                    }
+                };
             });
+        }
+
+        allZones.forEach(zone => {
+            zone.onclick = () => {
+                if (!selectedTeacher) return;
+                zone.appendChild(selectedTeacher);
+                selectedTeacher.classList.remove('selected');
+                selectedTeacher = null;
+                clearHints();
+            };
         });
+
+        function clearHints() {
+            document.querySelectorAll('.subject-zone').forEach(z => z.classList.remove('hint'));
+        }
+
+        attachTeacherClicks();
 
         function checkAnswers() {
             let correct = 0, total = 0;
-            dropZones.forEach(zone => {
+            allZones.forEach(zone => {
                 const zoneSubject = zone.dataset.subject;
                 zone.querySelectorAll('.teacher-card').forEach(teacher => {
                     total++;
@@ -143,9 +206,7 @@
                     }
                 });
             });
-
             const totalTeachers = document.querySelectorAll('.teacher-card').length;
-
             if (total === 0) {
                 document.getElementById('result').textContent = "Перетащи учителей в зоны!";
             } else if (correct === totalTeachers && total === totalTeachers) {
