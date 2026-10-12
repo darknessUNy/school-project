@@ -45,6 +45,9 @@
             cursor: pointer;
             box-shadow: 0 2px 6px rgba(0,0,0,0.3);
             z-index: 10;
+            text-decoration: none;
+            line-height: 28px;
+            text-align: center;
         }
         .teacher-card.selected .teacher-page-btn { display: block; }
         .teacher-page-btn:hover { background: #2b6cb0; }
@@ -84,43 +87,43 @@
     <div class="game-container" id="teachers-container">
 
         <div class="teacher-card" data-subject="history" data-link="https://school2-ptz.ru/teachers/xauxiya-elena-rejnovna">
-            <button class="teacher-page-btn" title="Открыть страницу учителя">↗</button>
+            <a class="teacher-page-btn" href="https://school2-ptz.ru/teachers/xauxiya-elena-rejnovna" target="_blank" title="Открыть страницу учителя">↗</a>
             <img src="https://school2-ptz.ru/school/t/photo_52.jpg" class="teacher-img" alt="Учитель">
             <strong>Шаховцева Елена Рейновна</strong>
         </div>
 
         <div class="teacher-card" data-subject="geography" data-link="https://school2-ptz.ru/teachers/stasilovich-natalya-sergeevna">
-            <button class="teacher-page-btn" title="Открыть страницу учителя">↗</button>
+            <a class="teacher-page-btn" href="https://school2-ptz.ru/teachers/stasilovich-natalya-sergeevna" target="_blank" title="Открыть страницу учителя">↗</a>
             <img src="https://school2-ptz.ru/wp-content/uploads/2026/03/RTQCiz3bYH0.jpg" class="teacher-img" alt="Учитель">
             <strong>Стасилович Наталья Сергеевна</strong>
         </div>
 
         <div class="teacher-card" data-subject="math" data-link="https://school2-ptz.ru/teachers/tolkacheva-elena-pavlovna">
-            <button class="teacher-page-btn" title="Открыть страницу учителя">↗</button>
+            <a class="teacher-page-btn" href="https://school2-ptz.ru/teachers/tolkacheva-elena-pavlovna" target="_blank" title="Открыть страницу учителя">↗</a>
             <img src="https://school2-ptz.ru/school/t/photo_30.jpg" class="teacher-img" alt="Учитель">
             <strong>Толкачева Елена Павловна</strong>
         </div>
 
         <div class="teacher-card" data-subject="biology" data-link="https://school2-ptz.ru/teachers/andreevskaya-anna-alekseevna">
-            <button class="teacher-page-btn" title="Открыть страницу учителя">↗</button>
+            <a class="teacher-page-btn" href="https://school2-ptz.ru/teachers/andreevskaya-anna-alekseevna" target="_blank" title="Открыть страницу учителя">↗</a>
             <img src="https://school2-ptz.ru/school/t/photo_4.jpg" class="teacher-img" alt="Учитель">
             <strong>Андреевская Анна Алексеевна</strong>
         </div>
 
         <div class="teacher-card" data-subject="informatics" data-link="https://school2-ptz.ru/teachers/padchina-yana-viktorovna">
-            <button class="teacher-page-btn" title="Открыть страницу учителя">↗</button>
+            <a class="teacher-page-btn" href="https://school2-ptz.ru/teachers/padchina-yana-viktorovna" target="_blank" title="Открыть страницу учителя">↗</a>
             <img src="https://school2-ptz.ru/school/t/photo_80.jpg" class="teacher-img" alt="Учитель">
             <strong>Падчина Яна Викторовна</strong>
         </div>
 
         <div class="teacher-card" data-subject="physics" data-link="https://school2-ptz.ru/teachers/bobrova-yanina-bronyusovna">
-            <button class="teacher-page-btn" title="Открыть страницу учителя">↗</button>
+            <a class="teacher-page-btn" href="https://school2-ptz.ru/teachers/bobrova-yanina-bronyusovna" target="_blank" title="Открыть страницу учителя">↗</a>
             <img src="https://school2-ptz.ru/school/t/photo_8.jpg" class="teacher-img" alt="Учитель">
             <strong>Боброва Янина Бронюсовна</strong>
         </div>
 
         <div class="teacher-card" data-subject="ximia" data-link="https://school2-ptz.ru/teachers/ilina-anastasiya-anatolevna">
-            <button class="teacher-page-btn" title="Открыть страницу учителя">↗</button>
+            <a class="teacher-page-btn" href="https://school2-ptz.ru/teachers/ilina-anastasiya-anatolevna" target="_blank" title="Открыть страницу учителя">↗</a>
             <img src="https://school2-ptz.ru/school/t/photo_61.jpg" class="teacher-img" alt="Учитель">
             <strong>Ильина Анастасия Анатольевна</strong>
         </div>
@@ -219,6 +222,12 @@
         }
 
         attachTeacherClicks();
+
+        document.querySelectorAll('.teacher-page-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+        });
 
         function checkAnswers() {
             let correct = 0, total = 0;
