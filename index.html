@@ -273,5 +273,51 @@
             stopFireworks();
         }
     </script>
+<style>
+    #school-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+        overflow: hidden;
+    }
+    .school-item {
+        position: absolute;
+        font-size: 50px;
+        opacity: 0.15;
+        animation: floatRight linear infinite;
+    }
+    @keyframes floatRight {
+        from { transform: translateX(-100px); }
+        to { transform: translateX(110vw); }
+    }
+    body > *:not(#school-bg) { position: relative; z-index: 1; }
+</style>
+
+<div id="school-bg"></div>
+
+<script>
+    const items = ['📚', '✏️', '🏫', '🔔', '📖', '🎓', '📝', '🎒', '🧮', '🖍️', '📐', '🗺️'];
+    const bg = document.getElementById('school-bg');
+
+    function spawnItem() {
+        const el = document.createElement('div');
+        el.className = 'school-item';
+        el.textContent = items[Math.floor(Math.random() * items.length)];
+        el.style.top = Math.random() * 90 + 'vh';
+        el.style.fontSize = (30 + Math.random() * 40) + 'px';
+        el.style.animationDuration = (15 + Math.random() * 15) + 's';
+        bg.appendChild(el);
+        setTimeout(() => el.remove(), 35000);
+    }
+
+    for (let i = 0; i < 8; i++) {
+        setTimeout(spawnItem, i * 1500);
+    }
+    setInterval(spawnItem, 2000);
+</script>
 </body>
 </html>
