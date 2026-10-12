@@ -20,6 +20,7 @@
             border: 2px solid transparent;
             transition: background 0.3s, border-color 0.3s, opacity 0.3s;
             user-select: none;
+            position: relative;
         }
         .teacher-card:hover { background: #f7fafc; }
         .teacher-card.selected {
@@ -28,6 +29,25 @@
             opacity: 0.7;
         }
         .teacher-img { width: 100px; height: 100px; background-color: #ddd; border-radius: 50%; object-fit: cover; display: block; margin: 0 auto 10px; }
+
+        .teacher-page-btn {
+            display: none;
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #3182ce;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+        .teacher-card.selected .teacher-page-btn { display: block; }
+        .teacher-page-btn:hover { background: #2b6cb0; }
 
         .subject-zone {
             background: #e2e8f0;
@@ -63,37 +83,44 @@
 
     <div class="game-container" id="teachers-container">
 
-        <div class="teacher-card" data-subject="history">
+        <div class="teacher-card" data-subject="history" data-link="https://school2-ptz.ru/учитель/шаховцева">
+            <button class="teacher-page-btn" title="Открыть страницу учителя">↗</button>
             <img src="https://school2-ptz.ru/school/t/photo_52.jpg" class="teacher-img" alt="Учитель">
             <strong>Шаховцева Елена Рейновна</strong>
         </div>
 
-        <div class="teacher-card" data-subject="geography">
+        <div class="teacher-card" data-subject="geography" data-link="https://school2-ptz.ru/учитель/стасилович">
+            <button class="teacher-page-btn" title="Открыть страницу учителя">↗</button>
             <img src="https://school2-ptz.ru/wp-content/uploads/2026/03/RTQCiz3bYH0.jpg" class="teacher-img" alt="Учитель">
             <strong>Стасилович Наталья Сергеевна</strong>
         </div>
 
-        <div class="teacher-card" data-subject="math">
+        <div class="teacher-card" data-subject="math" data-link="https://school2-ptz.ru/учитель/толкачева">
+            <button class="teacher-page-btn" title="Открыть страницу учителя">↗</button>
             <img src="https://school2-ptz.ru/school/t/photo_30.jpg" class="teacher-img" alt="Учитель">
             <strong>Толкачева Елена Павловна</strong>
         </div>
 
-        <div class="teacher-card" data-subject="biology">
+        <div class="teacher-card" data-subject="biology" data-link="https://school2-ptz.ru/учитель/андреевская">
+            <button class="teacher-page-btn" title="Открыть страницу учителя">↗</button>
             <img src="https://school2-ptz.ru/school/t/photo_4.jpg" class="teacher-img" alt="Учитель">
             <strong>Андреевская Анна Алексеевна</strong>
         </div>
 
-        <div class="teacher-card" data-subject="informatics">
+        <div class="teacher-card" data-subject="informatics" data-link="https://school2-ptz.ru/учитель/падчина">
+            <button class="teacher-page-btn" title="Открыть страницу учителя">↗</button>
             <img src="https://school2-ptz.ru/school/t/photo_80.jpg" class="teacher-img" alt="Учитель">
             <strong>Падчина Яна Викторовна</strong>
         </div>
 
-        <div class="teacher-card" data-subject="physics">
+        <div class="teacher-card" data-subject="physics" data-link="https://school2-ptz.ru/учитель/боброва">
+            <button class="teacher-page-btn" title="Открыть страницу учителя">↗</button>
             <img src="https://school2-ptz.ru/school/t/photo_8.jpg" class="teacher-img" alt="Учитель">
             <strong>Боброва Янина Бронюсовна</strong>
         </div>
 
-        <div class="teacher-card" data-subject="ximia">
+        <div class="teacher-card" data-subject="ximia" data-link="https://school2-ptz.ru/учитель/ильина">
+            <button class="teacher-page-btn" title="Открыть страницу учителя">↗</button>
             <img src="https://school2-ptz.ru/school/t/photo_61.jpg" class="teacher-img" alt="Учитель">
             <strong>Ильина Анастасия Анатольевна</strong>
         </div>
@@ -158,6 +185,7 @@
         function attachTeacherClicks() {
             document.querySelectorAll('.teacher-card').forEach(card => {
                 card.onclick = (e) => {
+                    if (e.target.classList.contains('teacher-page-btn')) return;
                     e.stopPropagation();
                     if (card.classList.contains('selected')) {
                         card.classList.remove('selected');
